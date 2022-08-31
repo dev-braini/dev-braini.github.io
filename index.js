@@ -2,8 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 // extract from chromium source code by @liuwayong
+
+function hideMessageBox() {
+    const messageBox = document.querySelector("#messageBox");
+    messageBox.style.visibility="hidden";
+}
+
 (function () {
     'use strict';
+
     /**
      * T-Rex runner.
      * @param {string} outerContainerId Outer containing element id.
@@ -22,6 +29,7 @@
         this.containerEl = null;
         this.snackbarEl = null;
         this.detailsButton = this.outerContainerEl.querySelector('#details-button');
+        this.messageBox = document.querySelector('#messageBox');
 
         this.config = opt_config || Runner.config;
 
@@ -116,7 +124,7 @@
         INVERT_DISTANCE: 700,
         MAX_BLINK_COUNT: 3,
         MAX_CLOUDS: 6,
-        MAX_OBSTACLE_LENGTH: 3,
+        MAX_OBSTACLE_LENGTH: 10,
         MAX_OBSTACLE_DUPLICATION: 2,
         MAX_SPEED: 13,
         MIN_JUMP_HEIGHT: 35,
@@ -161,29 +169,29 @@
      * @enum {Object}
      */
     Runner.spriteDefinition = {
-        LDPI: {
-            CACTUS_LARGE: { x: 332, y: 2 },
-            CACTUS_SMALL: { x: 228, y: 2 },
-            CLOUD: { x: 86, y: 2 },
+        /*LDPI: {
+            RESTART: { x: 2, y: 2 },
             HORIZON: { x: 2, y: 54 },
-            MOON: { x: 484, y: 2 },
+            CLOUD: { x: 86, y: 2 },
             PTERODACTYL: { x: 134, y: 2 },
-            RESTART: { x: 2, y: 2 },
+            CACTUS_SMALL: { x: 228, y: 2 },
+            CACTUS_LARGE: { x: 337, y: 2 },
+            MOON: { x: 484, y: 2 },
+            STAR: { x: 645, y: 2 },
             TEXT_SPRITE: { x: 655, y: 2 },
-            TREX: { x: 848, y: 2 },
-            STAR: { x: 645, y: 2 }
-        },
+            TREX: { x: 848, y: 2 }
+        },*/
         HDPI: {
-            CACTUS_LARGE: { x: 652, y: 2 },
-            CACTUS_SMALL: { x: 446, y: 2 },
-            CLOUD: { x: 166, y: 2 },
-            HORIZON: { x: 2, y: 104 },
-            MOON: { x: 954, y: 2 },
-            PTERODACTYL: { x: 260, y: 2 },
             RESTART: { x: 2, y: 2 },
-            TEXT_SPRITE: { x: 1294, y: 2 },
-            TREX: { x: 1678, y: 2 },
-            STAR: { x: 1276, y: 2 }
+            HORIZON: { x: 2, y: 104 },
+            CLOUD: { x: 166, y: 2 },
+            PTERODACTYL: { x: 260, y: 2 },
+            CACTUS_SMALL: { x: 446, y: 2 },
+            CACTUS_LARGE: { x: 736, y: 2 },
+            MOON: { x: 1038, y: 2 },
+            STAR: { x: 1360, y: 2 },
+            TEXT_SPRITE: { x: 1378, y: 2 },
+            TREX: { x: 1762, y: 2 }
         }
     };
 
@@ -429,7 +437,7 @@
             if (this.activated) {
                 this.setArcadeModeContainerScale();
             }
-            
+
             // Redraw the elements back onto the canvas.
             if (this.canvas) {
                 this.canvas.width = this.dimensions.WIDTH;
@@ -474,9 +482,9 @@
                     'from { width:' + Trex.config.WIDTH + 'px }' +
                     'to { width: ' + this.dimensions.WIDTH + 'px }' +
                     '}';
-                
-                // create a style sheet to put the keyframe rule in 
-                // and then place the style sheet in the html head    
+
+                // create a style sheet to put the keyframe rule in
+                // and then place the style sheet in the html head
                 var sheet = document.createElement('style');
                 sheet.innerHTML = keyframes;
                 document.head.appendChild(sheet);
@@ -679,8 +687,10 @@
 
             if (e.target != this.detailsButton) {
                 if (!this.crashed && (Runner.keycodes.JUMP[e.keyCode] ||
-                    e.type == Runner.events.TOUCHSTART)) {
+                    e.type == Runner.events.TOUCHSTART ||
+                    (e.type == Runner.events.MOUSEDOWN/* && e.target == this.messageBox*/))) {
                     if (!this.playing) {
+                        hideMessageBox();
                         this.loadSounds();
                         this.playing = true;
                         this.update();
@@ -842,7 +852,7 @@
                 this.update();
             }
         },
-        
+
         /**
          * Hides offline messaging for a fullscreen game only experience.
          */
@@ -871,7 +881,7 @@
             this.containerEl.style.transform =
                 'scale(' + cssScale + ') translateY(' + translateY + 'px)';
         },
-        
+
         /**
          * Pause the game if the tab is not in focus.
          */
@@ -1468,7 +1478,8 @@
     Obstacle.types = [
         {
             type: 'CACTUS_SMALL',
-            width: 17,
+            /* width: 17, */
+            width: 24,
             height: 35,
             yPos: 105,
             multipleSpeed: 4,
@@ -1493,7 +1504,7 @@
                 new CollisionBox(8, 0, 7, 49),
                 new CollisionBox(13, 10, 10, 38)
             ]
-        },
+        }/*,
         {
             type: 'PTERODACTYL',
             width: 46,
@@ -1501,7 +1512,7 @@
             yPos: [100, 75, 50], // Variable height.
             yPosMobile: [100, 50], // Variable height mobile.
             multipleSpeed: 999,
-            minSpeed: 8.5,
+            minSpeed: 0,
             minGap: 150,
             collisionBoxes: [
                 new CollisionBox(15, 15, 16, 5),
@@ -1513,7 +1524,7 @@
             numFrames: 2,
             frameRate: 1000 / 6,
             speedOffset: .8
-        }
+        }*/
     ];
 
 
@@ -2746,7 +2757,7 @@
 
 
 function onDocumentLoad() {
-    new Runner('.interstitial-wrapper');
+    this.runner = new Runner('.interstitial-wrapper');
 }
 
 document.addEventListener('DOMContentLoaded', onDocumentLoad);

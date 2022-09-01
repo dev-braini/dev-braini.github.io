@@ -510,8 +510,8 @@ function hideMessageBox() {
          * Update the game status to started.
          */
         startGame: function () {
-            this.setArcadeMode();
-            this.runningTime = 0;
+            //this.setArcadeMode();
+            this.runningTime = 100;
             this.playingIntro = false;
             this.tRex.playingIntro = false;
             this.containerEl.style.webkitAnimation = '';

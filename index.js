@@ -95,7 +95,7 @@ function hideMessageBox() {
     var FPS = 60;
 
     /** @const */
-    var IS_HIDPI = window.devicePixelRatio > 1;
+    var IS_HIDPI = /* window.devicePixelRatio > 1; */ true;
 
     /** @const */
     var IS_IOS = /iPad|iPhone|iPod/.test(window.navigator.platform);
@@ -2342,7 +2342,7 @@ function hideMessageBox() {
             var moonSourceX = this.spritePos.x + NightMode.phases[this.currentPhase];
             var moonOutputWidth = moonSourceWidth;
             var starSize = NightMode.config.STAR_SIZE;
-            var starSourceX = Runner.spriteDefinition.LDPI.STAR.x;
+            var starSourceX = Runner.spriteDefinition.HDPI.STAR.x;
 
             if (IS_HIDPI) {
                 moonSourceWidth *= 2;

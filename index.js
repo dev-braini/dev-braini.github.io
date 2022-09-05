@@ -8,6 +8,17 @@ function hideMessageBox() {
     messageBox.style.visibility="hidden";
 }
 
+function showRank(delay) {
+    const rankWrapper = document.querySelector("#rank-wrapper");
+
+    setTimeout(function() {
+        rankWrapper.style.visibility="visible";
+    }, delay-550);
+}
+
+this.rankValue = document.querySelector('#rank-value');
+
+
 (function () {
     'use strict';
 
@@ -111,7 +122,7 @@ function hideMessageBox() {
      * @enum {number}
      */
     Runner.config = {
-        ACCELERATION: 0.0013,
+        ACCELERATION: 0.0012,
         BG_CLOUD_SPEED: 0.2,
         BOTTOM_PAD: 10,
         CLEAR_TIME: 3000,
@@ -130,7 +141,7 @@ function hideMessageBox() {
         MIN_JUMP_HEIGHT: 35,
         MOBILE_SPEED_COEFFICIENT: 1.2,
         RESOURCE_TEMPLATE_ID: 'audio-resources',
-        SPEED: 6.6,
+        SPEED: 6,
         SPEED_DROP_COEFFICIENT: 3,
         ARCADE_MODE_INITIAL_TOP_POSITION: 35,
         ARCADE_MODE_TOP_POSITION_PERCENT: 0.1
@@ -698,6 +709,7 @@ function hideMessageBox() {
                     (e.type == Runner.events.MOUSEDOWN/* && e.target == this.messageBox*/))) {
                     if (!this.playing) {
                         hideMessageBox();
+                        showRank(Trex.config.INTRO_DURATION);
                         this.loadSounds();
                         this.playing = true;
                         this.update();
@@ -2092,6 +2104,7 @@ function hideMessageBox() {
          * @param {number} width Canvas width in px.
          */
         init: function (width) {
+            this.rankValue = document.querySelector('#rank-value');
             var maxDistanceStr = '';
 
             this.calcXPos(width);
@@ -2170,6 +2183,23 @@ function hideMessageBox() {
             return distance ? Math.round(distance * this.config.COEFFICIENT) : 0;
         },
 
+        setRank: function (distance) {
+            let rank = 'RECRUIT';
+            let points = this.config.ACHIEVEMENT_DISTANCE;
+
+            if(distance >= points*4) {
+                rank = '<span class="green">CLAIM QUEST ON CREW3</span>';
+            } else if(distance >= points*3) {
+                rank = 'LIEUTENANT';
+            } else if(distance >= points*2) {
+                rank = '1st OFFICER';
+            } else if(distance >= points) {
+                rank = '2nd OFFICER';
+            }
+
+            this.rankValue.innerHTML = rank;
+        },
+
         /**
          * Update the distance meter.
          * @param {number} distance
@@ -2208,6 +2238,8 @@ function hideMessageBox() {
                     this.digits = this.defaultString.split('');
                 }
             } else {
+                this.setRank(this.getActualDistance(distance));
+
                 // Control flashing of the score on reaching acheivement.
                 if (this.flashIterations <= this.config.FLASH_ITERATIONS) {
                     this.flashTimer += deltaTime;
@@ -2267,6 +2299,7 @@ function hideMessageBox() {
          */
         reset: function () {
             this.update(0);
+            this.setRank(0);
             this.acheivement = false;
         }
     };
@@ -2732,7 +2765,7 @@ function hideMessageBox() {
         /**
          * Update the cloud positions.
          * @param {number} deltaTime
-         * @param {number} currentSpeed
+         * @param {number} speed
          */
         updateClouds: function (deltaTime, speed) {
             var cloudSpeed = this.cloudSpeed / 1000 * deltaTime * speed;
@@ -2810,15 +2843,12 @@ function hideMessageBox() {
             var obstacleType = Obstacle.types[obstacleTypeIndex];
             var obstacleSize = getRandomNum(1, Obstacle.MAX_OBSTACLE_LENGTH);
 
-            // Check for maxSize
+            // Check for maxSize and if necessary set to defaulttype
             if (obstacleSize > 1 && obstacleType.maxSize === 1) {
                 let defaultType = obstacleType.type.split('$')[0];
 
                 Obstacle.types.forEach((obs) => {
-                    if(obs.type === defaultType) {
-                        obstacleType = obs;
-                        console.log('change to default');
-                    }
+                    if(obs.type === defaultType) obstacleType = obs;
                 });
             }
 

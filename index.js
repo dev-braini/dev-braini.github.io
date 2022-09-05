@@ -436,9 +436,9 @@
 
             this.dimensions.WIDTH = this.outerContainerEl.offsetWidth - padding * 2;
             this.dimensions.WIDTH = Math.min(DEFAULT_WIDTH, this.dimensions.WIDTH); //Arcade Mode
-            if (this.activated) {
+            /* if (this.activated) {
                 this.setArcadeModeContainerScale();
-            }
+            } */
 
             // Redraw the elements back onto the canvas.
             if (this.canvas) {
@@ -2170,13 +2170,26 @@
 
         setRank: function (distance) {
             let rank = 'RECRUIT';
+            let oldRank = this.rankValue.innerText;
             let label = this.rankLabel.innerText = 'rank';
             let points = this.config.ACHIEVEMENT_DISTANCE;
             let classes = this.rankValue.classList;
 
-            if(distance >= points*4) {
-                rank = '<span class="green">CONGRATULATIONS!<br />Clain your quest on creq3.</span>';
+            if(distance >= points*15) {
+                label = 'jump on';
+                rank = 'You are a monster!';
+            } else if(distance >= points*10) {
+                label = 'jump on';
+                rank = 'Wow, insanely good!';
+            } else if(distance >= points*8) {
+                label = 'jump on';
+                rank = 'AWESOME';
+            } else if(distance >= points*6) {
+                label = 'jump on';
+                rank = '';
+            } else if(distance >= points*4) {
                 label = '';
+                rank = '<span class="green">CONGRATULATIONS!<br />Clain your quest on creq3.</span>';
             } else if(distance >= points*3) {
                 rank = 'LIEUTENANT';
             } else if(distance >= points*2) {
@@ -2188,7 +2201,7 @@
             this.rankLabel.innerText = label;
             this.rankValue.innerHTML = rank;
 
-            if(distance > 0 && distance <= points*4) {
+            if(distance > 0 && oldRank != rank) {
                 classes.add('bounce');
 
                 setTimeout(function () {

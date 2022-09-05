@@ -21,10 +21,14 @@ html, body {
   visibility: hidden;
 }
 
+#rank-label {
+  display: block;
+}
+
 #rank-value {
   font-weight: 600;
   color: #666;
-  display: block;
+  display: inline-block;
   margin-top: -4px;
   font-size: 1.2em;
 }

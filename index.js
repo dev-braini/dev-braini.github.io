@@ -111,7 +111,7 @@ function hideMessageBox() {
      * @enum {number}
      */
     Runner.config = {
-        ACCELERATION: 0.001,
+        ACCELERATION: 0.0013,
         BG_CLOUD_SPEED: 0.2,
         BOTTOM_PAD: 10,
         CLEAR_TIME: 3000,
@@ -130,7 +130,7 @@ function hideMessageBox() {
         MIN_JUMP_HEIGHT: 35,
         MOBILE_SPEED_COEFFICIENT: 1.2,
         RESOURCE_TEMPLATE_ID: 'audio-resources',
-        SPEED: 6,
+        SPEED: 6.6,
         SPEED_DROP_COEFFICIENT: 3,
         ARCADE_MODE_INITIAL_TOP_POSITION: 35,
         ARCADE_MODE_TOP_POSITION_PERCENT: 0.1
@@ -187,7 +187,14 @@ function hideMessageBox() {
             CLOUD: { x: 166, y: 2 },
             PTERODACTYL: { x: 260, y: 2 },
             CACTUS_SMALL: { x: 446, y: 2 },
+            CACTUS_SMALL$2: { x: 494, y: 2 },
+            CACTUS_SMALL$3: { x: 542, y: 2 },
+            CACTUS_SMALL$4: { x: 590, y: 2 },
+            CACTUS_SMALL$5: { x: 638, y: 2 },
+            CACTUS_SMALL$6: { x: 686, y: 2 },
             CACTUS_LARGE: { x: 736, y: 2 },
+            CACTUS_LARGE$2: { x: 786, y: 2 },
+            CACTUS_LARGE$3: { x: 836, y: 2 },
             MOON: { x: 1038, y: 2 },
             STAR: { x: 1360, y: 2 },
             TEXT_SPRITE: { x: 1378, y: 2 },
@@ -1279,21 +1286,21 @@ function hideMessageBox() {
     /**
      * Obstacle.
      * @param {HTMLCanvasCtx} canvasCtx
-     * @param {Obstacle.type} type
-     * @param {Object} spritePos Obstacle position in sprite.
+     * @param {Obstacle} type
      * @param {Object} dimensions
      * @param {number} gapCoefficient Mutipler in determining the gap.
      * @param {number} speed
      * @param {number} opt_xOffset
      */
-    function Obstacle(canvasCtx, type, spriteImgPos, dimensions,
-        gapCoefficient, speed, opt_xOffset) {
+    function Obstacle(canvasCtx, type, obstacleSize, spriteImgPos, dimensions,
+                      gapCoefficient, speed, opt_xOffset, width) {
 
         this.canvasCtx = canvasCtx;
         this.spritePos = spriteImgPos;
         this.typeConfig = type;
         this.gapCoefficient = gapCoefficient;
-        this.size = getRandomNum(1, Obstacle.MAX_OBSTACLE_LENGTH);
+        // this.size = getRandomNum(1, Obstacle.MAX_OBSTACLE_LENGTH);
+        this.size = obstacleSize;
         this.dimensions = dimensions;
         this.remove = false;
         this.xPos = dimensions.WIDTH + (opt_xOffset || 0);
@@ -1481,6 +1488,87 @@ function hideMessageBox() {
             /* width: 17, */
             width: 24,
             height: 35,
+            maxSize: 3,
+            yPos: 105,
+            multipleSpeed: 4,
+            minGap: 120,
+            minSpeed: 0,
+            collisionBoxes: [
+                new CollisionBox(0, 7, 5, 27),
+                new CollisionBox(4, 0, 6, 34),
+                new CollisionBox(10, 4, 7, 14)
+            ]
+        },
+        {
+            type: 'CACTUS_SMALL$2',
+            /* width: 17, */
+            width: 24,
+            height: 35,
+            maxSize: 1,
+            yPos: 105,
+            multipleSpeed: 4,
+            minGap: 120,
+            minSpeed: 0,
+            collisionBoxes: [
+                new CollisionBox(0, 7, 5, 27),
+                new CollisionBox(4, 0, 6, 34),
+                new CollisionBox(10, 4, 7, 14)
+            ]
+        },
+        {
+            type: 'CACTUS_SMALL$3',
+            /* width: 17, */
+            width: 24,
+            height: 35,
+            maxSize: 1,
+            yPos: 105,
+            multipleSpeed: 4,
+            minGap: 120,
+            minSpeed: 0,
+            collisionBoxes: [
+                new CollisionBox(0, 7, 5, 27),
+                new CollisionBox(4, 0, 6, 34),
+                new CollisionBox(10, 4, 7, 14)
+            ]
+        },
+        {
+            type: 'CACTUS_SMALL$4',
+            /* width: 17, */
+            width: 24,
+            height: 35,
+            maxSize: 1,
+            yPos: 105,
+            multipleSpeed: 4,
+            minGap: 120,
+            minSpeed: 0,
+            collisionBoxes: [
+                new CollisionBox(0, 7, 5, 27),
+                new CollisionBox(4, 0, 6, 34),
+                new CollisionBox(10, 4, 7, 14)
+            ]
+        },
+        {
+            type: 'CACTUS_SMALL$5',
+            /* width: 17, */
+            width: 24,
+            height: 35,
+            maxSize: 1,
+            yPos: 105,
+            multipleSpeed: 4,
+            minGap: 120,
+            minSpeed: 0,
+            collisionBoxes: [
+                new CollisionBox(0, 7, 5, 27),
+                new CollisionBox(4, 0, 6, 34),
+                new CollisionBox(10, 4, 7, 14)
+            ]
+        },
+        {
+            type: 'CACTUS_SMALL$6',
+            /* width: 17, */
+            width: 24,
+            height: 35,
+            maxSize: 1,
             yPos: 105,
             multipleSpeed: 4,
             minGap: 120,
@@ -1495,6 +1583,37 @@ function hideMessageBox() {
             type: 'CACTUS_LARGE',
             width: 25,
             height: 50,
+            maxSize: 3,
+            yPos: 90,
+            multipleSpeed: 7,
+            minGap: 120,
+            minSpeed: 0,
+            collisionBoxes: [
+                new CollisionBox(0, 12, 7, 38),
+                new CollisionBox(8, 0, 7, 49),
+                new CollisionBox(13, 10, 10, 38)
+            ]
+        },
+        {
+            type: 'CACTUS_LARGE$2',
+            width: 25,
+            height: 50,
+            maxSize: 1,
+            yPos: 90,
+            multipleSpeed: 7,
+            minGap: 120,
+            minSpeed: 0,
+            collisionBoxes: [
+                new CollisionBox(0, 12, 7, 38),
+                new CollisionBox(8, 0, 7, 49),
+                new CollisionBox(13, 10, 10, 38)
+            ]
+        },
+        {
+            type: 'CACTUS_LARGE$3',
+            width: 25,
+            height: 50,
+            maxSize: 1,
             yPos: 90,
             multipleSpeed: 7,
             minGap: 120,
@@ -1954,7 +2073,7 @@ function hideMessageBox() {
         MAX_DISTANCE_UNITS: 5,
 
         // Distance that causes achievement animation.
-        ACHIEVEMENT_DISTANCE: 100,
+        ACHIEVEMENT_DISTANCE: 250,
 
         // Used for conversion from pixel distance to a scaled unit.
         COEFFICIENT: 0.025,
@@ -2689,6 +2808,19 @@ function hideMessageBox() {
         addNewObstacle: function (currentSpeed) {
             var obstacleTypeIndex = getRandomNum(0, Obstacle.types.length - 1);
             var obstacleType = Obstacle.types[obstacleTypeIndex];
+            var obstacleSize = getRandomNum(1, Obstacle.MAX_OBSTACLE_LENGTH);
+
+            // Check for maxSize
+            if (obstacleSize > 1 && obstacleType.maxSize === 1) {
+                let defaultType = obstacleType.type.split('$')[0];
+
+                Obstacle.types.forEach((obs) => {
+                    if(obs.type === defaultType) {
+                        obstacleType = obs;
+                        console.log('change to default');
+                    }
+                });
+            }
 
             // Check for multiples of the same type of obstacle.
             // Also check obstacle is available at current speed.
@@ -2698,7 +2830,7 @@ function hideMessageBox() {
             } else {
                 var obstacleSpritePos = this.spritePos[obstacleType.type];
 
-                this.obstacles.push(new Obstacle(this.canvasCtx, obstacleType,
+                this.obstacles.push(new Obstacle(this.canvasCtx, obstacleType, obstacleSize,
                     obstacleSpritePos, this.dimensions,
                     this.gapCoefficient, currentSpeed, obstacleType.width));
 

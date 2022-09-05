@@ -16,7 +16,6 @@ function showRank(delay) {
     }, delay-550);
 }
 
-this.rankValue = document.querySelector('#rank-value');
 
 
 (function () {
@@ -2085,7 +2084,7 @@ this.rankValue = document.querySelector('#rank-value');
         MAX_DISTANCE_UNITS: 5,
 
         // Distance that causes achievement animation.
-        ACHIEVEMENT_DISTANCE: 250,
+        ACHIEVEMENT_DISTANCE: 100,
 
         // Used for conversion from pixel distance to a scaled unit.
         COEFFICIENT: 0.025,
@@ -2186,6 +2185,7 @@ this.rankValue = document.querySelector('#rank-value');
         setRank: function (distance) {
             let rank = 'RECRUIT';
             let points = this.config.ACHIEVEMENT_DISTANCE;
+            let classes = this.rankValue.classList;
 
             if(distance >= points*4) {
                 rank = '<span class="green">CLAIM QUEST ON CREW3</span>';
@@ -2198,6 +2198,15 @@ this.rankValue = document.querySelector('#rank-value');
             }
 
             this.rankValue.innerHTML = rank;
+
+            if(distance > 0 && distance <= points*4) {
+                classes.add('bounce');
+
+                setTimeout(function () {
+                    classes.remove('bounce');
+                }, 2500);
+            }
+
         },
 
         /**

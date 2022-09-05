@@ -3,21 +3,6 @@
 // found in the LICENSE file.
 // extract from chromium source code by @liuwayong
 
-function hideMessageBox() {
-    const messageBox = document.querySelector("#messageBox");
-    messageBox.style.visibility="hidden";
-}
-
-function showRank(delay) {
-    const rankWrapper = document.querySelector("#rank-wrapper");
-
-    setTimeout(function() {
-        rankWrapper.style.visibility="visible";
-    }, delay-550);
-}
-
-
-
 (function () {
     'use strict';
 
@@ -2084,7 +2069,7 @@ function showRank(delay) {
         MAX_DISTANCE_UNITS: 5,
 
         // Distance that causes achievement animation.
-        ACHIEVEMENT_DISTANCE: 100,
+        ACHIEVEMENT_DISTANCE: 250,
 
         // Used for conversion from pixel distance to a scaled unit.
         COEFFICIENT: 0.025,
@@ -2104,6 +2089,7 @@ function showRank(delay) {
          */
         init: function (width) {
             this.rankValue = document.querySelector('#rank-value');
+            this.rankLabel = document.querySelector('#rank-label');
             var maxDistanceStr = '';
 
             this.calcXPos(width);
@@ -2184,11 +2170,13 @@ function showRank(delay) {
 
         setRank: function (distance) {
             let rank = 'RECRUIT';
+            let label = this.rankLabel.innerText = 'rank';
             let points = this.config.ACHIEVEMENT_DISTANCE;
             let classes = this.rankValue.classList;
 
             if(distance >= points*4) {
-                rank = '<span class="green">CLAIM QUEST ON CREW3</span>';
+                rank = '<span class="green">CONGRATULATIONS!<br />Clain your quest on creq3.</span>';
+                label = '';
             } else if(distance >= points*3) {
                 rank = 'LIEUTENANT';
             } else if(distance >= points*2) {
@@ -2197,6 +2185,7 @@ function showRank(delay) {
                 rank = '2nd OFFICER';
             }
 
+            this.rankLabel.innerText = label;
             this.rankValue.innerHTML = rank;
 
             if(distance > 0 && distance <= points*4) {
@@ -2925,6 +2914,19 @@ function showRank(delay) {
         }
     };
 })();
+
+function hideMessageBox() {
+    const messageBox = document.querySelector("#messageBox");
+    messageBox.style.visibility="hidden";
+}
+
+function showRank(delay) {
+    const rankWrapper = document.querySelector("#rank-wrapper");
+
+    setTimeout(function() {
+        rankWrapper.style.visibility="visible";
+    }, delay-550);
+}
 
 
 function onDocumentLoad() {

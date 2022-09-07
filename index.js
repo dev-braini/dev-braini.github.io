@@ -692,7 +692,7 @@
                     e.type == Runner.events.TOUCHSTART ||
                     (e.type == Runner.events.MOUSEDOWN/* && e.target == this.messageBox*/))) {
                     if (!this.playing) {
-                        hideMessageBox();
+                        hideStartScreen();
                         showRank(Trex.config.INTRO_DURATION);
                         this.loadSounds();
                         this.playing = true;
@@ -2928,9 +2928,11 @@
     };
 })();
 
-function hideMessageBox() {
-    const messageBox = document.querySelector("#messageBox");
-    messageBox.style.visibility="hidden";
+function hideStartScreen() {
+    const startButton = document.querySelector("#messageBox");
+    const logo = document.querySelector("#logo");
+    startButton.classList.add('hide');
+    logo.classList.add('hide');
 }
 
 function showRank(delay) {

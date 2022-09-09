@@ -63,6 +63,7 @@
 
         // Global web audio context for playing sounds.
         this.audioContext = null;
+        this.bgMusic = null;
 
         // Images.
         this.images = {};
@@ -128,7 +129,9 @@
         SPEED: 6,
         SPEED_DROP_COEFFICIENT: 3,
         ARCADE_MODE_INITIAL_TOP_POSITION: 35,
-        ARCADE_MODE_TOP_POSITION_PERCENT: 0.1
+        ARCADE_MODE_TOP_POSITION_PERCENT: 0.1,
+        BACKGROUND_MUSIC: 'assets/soundtrack.mp3',
+        BACKGROUND_MUSIC_VOLUME: 0.05
     };
 
 
@@ -322,6 +325,8 @@
         loadSounds: function () {
             if (!IS_IOS) {
                 this.audioContext = new AudioContext();
+                this.bgMusic = new Audio(this.config.BACKGROUND_MUSIC);
+                this.bgMusic.volume = this.config.BACKGROUND_MUSIC_VOLUME;
 
                 var resourceTemplate =
                     document.getElementById(this.config.RESOURCE_TEMPLATE_ID).content;
@@ -696,6 +701,7 @@
                         showRank(Trex.config.INTRO_DURATION);
                         this.loadSounds();
                         this.playing = true;
+                        this.bgMusic.play();
                         this.update();
                         if (window.errorPageController) {
                             errorPageController.trackEasterEgg();
@@ -794,6 +800,7 @@
             this.playSound(this.soundFx.HIT);
             vibrate(200);
 
+            this.bgMusic.pause();
             this.stop();
             this.crashed = true;
             this.distanceMeter.acheivement = false;
@@ -851,6 +858,8 @@
                 this.horizon.reset();
                 this.tRex.reset();
                 this.playSound(this.soundFx.BUTTON_PRESS);
+                this.bgMusic.currentTime = 0;
+                this.bgMusic.play();
                 this.invert(true);
                 this.update();
             }

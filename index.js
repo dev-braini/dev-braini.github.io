@@ -2198,7 +2198,7 @@
                 rank = '';
             } else if(distance >= points*4) {
                 label = '';
-                rank = '<span class="green">CONGRATULATIONS!<br />Clain your quest on creq3.</span>';
+                rank = '<span class="green">CONGRATULATIONS!<br />Claim your quest on crew3.</span>';
             } else if(distance >= points*3) {
                 rank = 'LIEUTENANT';
             } else if(distance >= points*2) {

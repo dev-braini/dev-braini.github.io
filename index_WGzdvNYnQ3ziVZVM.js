@@ -325,8 +325,11 @@
         loadSounds: function () {
             if (!IS_IOS) {
                 this.audioContext = new AudioContext();
-                this.bgMusic = new Audio(this.config.BACKGROUND_MUSIC);
-                this.bgMusic.volume = this.config.BACKGROUND_MUSIC_VOLUME;
+
+                try {
+                    this.bgMusic = new Audio(this.config.BACKGROUND_MUSIC);
+                    this.bgMusic.volume = this.config.BACKGROUND_MUSIC_VOLUME;
+                } catch (e) {}
 
                 var resourceTemplate =
                     document.getElementById(this.config.RESOURCE_TEMPLATE_ID).content;
@@ -700,7 +703,8 @@
                         showRank(Trex.config.INTRO_DURATION);
                         this.loadSounds();
                         this.playing = true;
-                        this.bgMusic.play();
+                        try { this.bgMusic.play(); } catch (e) {}
+
                         this.update();
                         if (window.errorPageController) {
                             errorPageController.trackEasterEgg();
@@ -799,7 +803,7 @@
             this.playSound(this.soundFx.HIT);
             vibrate(200);
 
-            this.bgMusic.pause();
+            try { this.bgMusic.pause(); } catch (e) {}
             this.stop();
             this.crashed = true;
             this.distanceMeter.acheivement = false;
@@ -857,8 +861,10 @@
                 this.horizon.reset();
                 this.tRex.reset();
                 this.playSound(this.soundFx.BUTTON_PRESS);
-                this.bgMusic.currentTime = 0;
-                this.bgMusic.play();
+                try {
+                    this.bgMusic.currentTime = 0;
+                    this.bgMusic.play();
+                } catch (e) {}
                 this.invert(true);
                 this.update();
             }

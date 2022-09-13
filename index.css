@@ -212,7 +212,7 @@ span.green {
 @media (max-width: 450px) {
   #messageBox {
     right: 50%;
-    margin-right: -102px;
+    margin-right: -100px;
   }
 
   #logo {

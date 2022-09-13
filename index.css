@@ -59,7 +59,7 @@ span.green {
 }
 
 #logo {
-  width: 152px;
+  width: 150px;
   left: 0;
   right: 230px;
   margin-top: -2px;
@@ -193,6 +193,44 @@ span.green {
   .offline .interstitial-wrapper {
     margin-left: 0;
     margin-right: 0;
+  }
+}
+
+
+@media (max-width: 520px) and (min-width: 450px) {
+  #messageBox {
+    right: 5px;
+  }
+
+  #logo {
+    left: 76px;
+    right: auto;
+  }
+}
+
+
+@media (max-width: 450px) {
+  #messageBox {
+    right: 50%;
+    margin-right: -102px;
+  }
+
+  #logo {
+    right: 0;
+    width: 104px;
+    margin-top: -60px;
+  }
+}
+
+@media (max-width: 302px) {
+  #messageBox {
+    right: 8px;
+    margin-right: 0;
+  }
+
+  #logo {
+    margin-right: 0;
+    right: 55px;
   }
 }
 
